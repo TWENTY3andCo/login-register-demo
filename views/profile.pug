@@ -1,14 +1,16 @@
 extends layout
 block content
     .container-fluid
+        include includes/messages
         .row
             .col-md-4.col-md-offset-4
                 .panel.panel-primary
                     .panel-heading
                         .panel-title #{user.name}
-                    .panel-body
-                        
+                    .panel-body 
                         p Your email adress is #{user.email}
                         if user.role == 'admin'
                             strong Admin
+                        else
+                            strong Just a simple user
             

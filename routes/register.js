@@ -6,6 +6,8 @@
 
 const User = require('../models/User');
 
+//Load admin list
+const admins = require('../configs/admins');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
@@ -32,18 +34,22 @@ router.post('/', async (req, res, next) => {
     } else {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password,saltRounds);
+        //Check if current email is in the admin list
+        let role = admins.includes(username)?'admin':'user';
         let user = new User({
             email: username,
             name,
+            role,
             password:hashedPassword
         });
         console.log('User',user)
         try{
             await User.register(user);
-            req.flash('success', 'Registered new user.You can now login');
-            res.render('login', {
-                title: 'Login'
+            req.login(user,(err)=>{
+                req.flash('error', 'Registered new user.You can now login');
+                res.redirect('profile');
             });
+            
         }catch(e){
             console.log('Error occured');
             console.log(e);

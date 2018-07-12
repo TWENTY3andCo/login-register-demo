@@ -31,11 +31,10 @@ User.register = (user)=>{
  * Compare a password and a hash
  * @param {String} candidatePassword 
  * @param {String} hash 
- * @returns {Boolean} isMatch Whether the password and the hash match
+ * @returns {Promise} isMatch 
  */
 User.comparePasswords = async (candidatePassword,hash)=>{
-    let isMatch = await bcrypt.compare(candidatePassword,hash);
-    return isMatch;
+    return  bcrypt.compare(candidatePassword,hash);
 };
 
 

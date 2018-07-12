@@ -13,11 +13,11 @@ const login = require('./routes/login');
 const logout = require('./routes/logout');
 const register = require('./routes/register');
 const profile = require('./routes/profile');
-const app = express();
 const session = require('express-session');
 const expressValidator = require('express-validator');
 const flash = require('connect-flash');
-
+const MongoStore = require('connect-mongo')(session);    
+const app = express();
 
 mongoose.connect(mongourl).then(() => {
     console.log('Connected to database');
@@ -28,11 +28,28 @@ mongoose.connect(mongourl).then(() => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'node_modules/bootswatch/')));
+
+
 //Initialize session
 app.use(session({
     secret: 'just a secret word',
     resave: 'false',
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection,
+        autoRemove: 'interval',
+        autoRemoveInterval: 60 //60 minutes
+    })
 }));
 
 app.use(passport.initialize());
@@ -71,14 +88,7 @@ app.use(expressValidator({
     }
 }));
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'node_modules/bootswatch/')));
+
 app.use('/', index);
 app.use('/users', users);
 app.use('/login', login);

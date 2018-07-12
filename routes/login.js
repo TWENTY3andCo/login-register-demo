@@ -25,7 +25,8 @@ passport.use(new LocalStrategy(async (username, password, done) => {
                 message: 'No user found'
             })
         }
-        let isMatch =  User.comparePasswords(password, user.password);
+        let isMatch = await User.comparePasswords(password, user.password);
+        console.log(isMatch)
         if (isMatch) {
             return done(null, user);
         } else {
