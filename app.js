@@ -13,6 +13,7 @@ const login = require('./routes/login');
 const logout = require('./routes/logout');
 const register = require('./routes/register');
 const profile = require('./routes/profile');
+const admin = require('./routes/admin');
 const session = require('express-session');
 const expressValidator = require('express-validator');
 const flash = require('connect-flash');
@@ -57,8 +58,13 @@ app.use(passport.session());
 
 //Express messages
 app.use(flash());
+/**
+ * @param {IncomingMessage} req
+ * @param {ServerResponse} res
+ * @param {Function} next
+ */
 app.use((req, res, next) => {
-
+    
     //Store flash messages for each request
     let success = req.flash('success');
     let error = req.flash('error');
@@ -95,6 +101,7 @@ app.use('/login', login);
 app.use('/register',register);  
 app.use('/profile',profile);
 app.use('/logout',logout);
+app.use('/admin',admin);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     const err = new Error('Not Found');

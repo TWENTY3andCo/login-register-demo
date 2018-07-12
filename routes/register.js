@@ -13,9 +13,13 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 router.get('/', (req, res, next) => {
-    res.render('register', {
-        title: 'Register'
-    });
+    if(req.user){
+        res.redirect('profile');
+    }else{
+        res.render('register', {
+            title: 'Register'
+        });
+    }
 });
 
 router.post('/', async (req, res, next) => {
@@ -57,12 +61,7 @@ router.post('/', async (req, res, next) => {
             res.redirect('/register');
 
         }
-        
-
-
     }
-
-
 });
 
 module.exports = router;
