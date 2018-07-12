@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    .container-fluid
+        .jumbotron.text-justify
+            h1.text-center Hello
+            p 
+                | This is a demo application with login register functionality.
+                | Each user has role(user,admin).Default role is user.There is a file called <code>admins.js</code> inside
+                | <code>config</code> which exports a list of emails.Every user whose email adress is on that file is registeres as an admin
