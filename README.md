@@ -15,3 +15,6 @@ Clone repo.Then open a terminal and type npm install.After eveyrthing is complet
 ## More to know
 Each user has the `user` role by default.That means that some areas are not accessible. To create a user with the `admin` role add their email in the array that is in <kbd>/configs/admins.js</kbd>
 
+## Use a predifined set of users
+
+In the `setup` folder there is a file called `users.js`.There is an array of objects each one containing a name,password,email and role field.Add more users using this schema and then type `npm run setup`
