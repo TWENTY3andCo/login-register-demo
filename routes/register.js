@@ -11,7 +11,7 @@ const admins = require('../configs/admins');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-
+const isUserUnique = require('../helpers/isUserUnique');
 router.get('/', (req, res, next) => {
     if(req.user){
         //If user is logged in we redirect to profile
@@ -23,7 +23,7 @@ router.get('/', (req, res, next) => {
     }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/',isUserUnique, async (req, res, next) => {
 
     let username = req.body.username;
     let name = req.body.name;
