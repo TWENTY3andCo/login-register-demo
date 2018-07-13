@@ -14,6 +14,7 @@ const bcrypt = require('bcrypt');
 
 router.get('/', (req, res, next) => {
     if(req.user){
+        //If user is logged in we redirect to profile
         res.redirect('profile');
     }else{
         res.render('register', {
@@ -50,7 +51,7 @@ router.post('/', async (req, res, next) => {
         try{
             await User.register(user);
             req.login(user,(err)=>{
-                req.flash('error', 'Registered new user.You can now login');
+                req.flash('success', 'Welcome to our application');
                 res.redirect('profile');
             });
             
